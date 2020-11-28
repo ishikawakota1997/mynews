@@ -27,16 +27,7 @@ class ProfileController extends Controller
         $profile = new Profile;
         $form = $request->all();
 
-        // formに画像があれば、保存する
-        if ($form['image']) {
-            $path = $request->file('image')->store('public/image');
-            $news->image_path = basename($path);
-        } else {
-            $news->image_path = null;
-        }
-
         unset($form['_token']);
-        unset($form['image']);
         // データベースに保存する
         $news->fill($form);
         $news->save();
@@ -59,41 +50,41 @@ class ProfileController extends Controller
     public function edit(Request $request)
     {
         // News Modelからデータを取得する
-        $news = News::find($request->id);
+        $profile = Profile::find($request->id);
 
-        return view('admin.news.edit', ['news_form' => $news]);
+        return view('admin.profile.edit', ['profile_form' => $profile]);
     }
 
 
     public function update(Request $request)
     {
         // Validationをかける
-        $this->validate($request, News::$rules);
+        $this->validate($request, Profile::$rules);
         // News Modelからデータを取得する
-        $news = News::find($request->id);
+        $profile = Profile::find($request->id);
         // 送信されてきたフォームデータを格納する
-        $news_form = $request->all();
-        unset($news_form['_token']);
+        $profile_form = $request->all();
+        unset($profile_form['_token']);
 
         // 該当するデータを上書きして保存する
-        $news->fill($news_form)->save();
+        $profile->fill($profile_form)->save();
 
         // 以下を追記
         $history = new History;
-        $history->news_id = $news->id;
+        $history->profile_id = $profile->id;
         $history->edited_at = Carbon::now();
         $history->save();
 
-        return redirect('admin/news/');
+        return redirect('admin/profile/');
     }
 
     // 以下を追記
     public function delete(Request $request)
     {
         // 該当するNews Modelを取得
-        $news = News::find($request->id);
+        $profile = Profile::find($request->id);
         // 削除する
-        $news->delete();
-        return redirect('admin/news/');
+        $profile->delete();
+        return redirect('admin/profile/');
     }
 }
