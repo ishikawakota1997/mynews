@@ -29,10 +29,10 @@ class ProfileController extends Controller
 
         unset($form['_token']);
         // データベースに保存する
-        $news->fill($form);
-        $news->save();
+        $profile->fill($form);
+        $profile->save();
 
-        return redirect('admin/profile/create');
+        return redirect('admin/profile');
     }
 
     public function index(Request $request)
