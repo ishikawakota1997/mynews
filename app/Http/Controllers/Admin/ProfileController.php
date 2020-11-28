@@ -7,8 +7,9 @@ use App\Http\Controllers\Controller;
 
 use App\Profile;
 
+
 // 以下を追記
-use App\History;
+use App\ProfileHistory;
 use Carbon\Carbon;
 
 class ProfileController extends Controller
@@ -73,12 +74,12 @@ class ProfileController extends Controller
         $profile->fill($profile_form)->save();
 
         // 以下を追記
-        $history = new History;
-        $history->profile_id = $profile->id;
-        $history->edited_at = Carbon::now();
-        $history->save();
+        $profilehistory = new ProfileHistory;
+        $profilehistory->profile_id = $profile->id;
+        $profilehistory->edited_at = Carbon::now();
+        $profilehistory->save();
 
-        return redirect('admin/profile/');
+        return redirect('admin/profile');
     }
 
     // 以下を追記

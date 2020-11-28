@@ -14,7 +14,7 @@ class CreateProfileHistoriesTable extends Migration
     public function up()
     {
         Schema::create('profile_histories', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');;
             $table->integer('profile_id');
             $table->string('edited_at');
 
